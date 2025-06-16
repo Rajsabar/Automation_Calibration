@@ -305,8 +305,8 @@ public class LoginClaibration {
     @And("Quoting is in progress")
     public void Quoting_is_in_progress() {
     	// Clicking on the pricing
-    	WebElement pricingButtonElement =findElement(By.xpath("//button[@name='SD_Quote__c.Price']"));
-    	pricingButtonElement.click();
+//    	WebElement pricingButtonElement =findElement(By.xpath("//button[@name='SD_Quote__c.Price']"));
+//    	pricingButtonElement.click();
     	
     	//Scroll down the page
     	scrollTo(0,600);
@@ -327,16 +327,34 @@ public class LoginClaibration {
     	
     	//Submit for Approval
     	
-    	WebElement submitForApproval = testContainer.driver.findElement(By.xpath("//button[@name='SD_Quote__c.Submit_for_Approval']"));
-    	((JavascriptExecutor) testContainer.driver).executeScript("arguments[0].click();", submitForApproval);
+    	//WebElement submitForApproval = testContainer.driver.findElement(By.xpath("//button[@name='SD_Quote__c.Submit_for_Approval']"));
+    //	((JavascriptExecutor) testContainer.driver).executeScript("arguments[0].click();", submitForApproval);
     	
     	WebElement status= findElement(By.xpath("//span[text()='Quote Status']/ancestor::record_flexipage-record-field//span//slot//lightning-formatted-text"));
     	String quoteStatus = status.getText();
+    	System.out.println(quoteStatus);
     	
-    	if(quoteStatus == 'Pending Approval')
+    	if ("Pending Approval".equals(quoteStatus)) 
     	{
     		// Go to approvals and approve the quote
+    		WebElement approvalTab= findElement(By.xpath("//a[@data-label='Approvals']"));
+    		approvalTab.click();
+    		
+    		WebDriverWait element = new WebDriverWait(testContainer.driver, Duration.ofSeconds(10));
+    		WebElement approveButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@title='Approve']")));
+    		approveButton.click();
+
+    		//Click on Approve button
+//    		WebElement approveButton = findElement(By.xpath("//div[@title='Approve']"));
+//    		approveButton.click();
+    		WebElement approve=findElement(By.xpath("//span[text()='Approve']"));
+    		approve.click();
+    		
     	}
+    	
+    	// Click on calculate tax Button   	
+    	WebElement calculateTax = testContainer.driver.findElement(By.xpath("//button[@name='SD_Quote__c.Calculate_Tax']"));
+    	((JavascriptExecutor) testContainer.driver).executeScript("arguments[0].click();", calculateTax);
 
     	
     	
