@@ -28,7 +28,7 @@ public class LoginClaibration {
         waitForElement(5000);
         clickElement(By.xpath(XPathHelper.SEARCH_BUTTON));
         Actions actions = new Actions(testContainer.driver);
-        String inputText = "WO-01105209";
+        String inputText = "3052446:1.1;1;0JP49320222INT";
 
         try {
             WebElement searchBox1 = findElement(By.xpath(XPathHelper.SEARCH_BOX_1));
@@ -71,7 +71,7 @@ public class LoginClaibration {
         clickElementUsingJS(element);
     }
 
-    @And("Check product Support strategy")
+    @And("Check the all product Support strategy")
     public void Check_product_Support_strategy() {
         boolean desiredValue = false;
         try {
@@ -110,7 +110,7 @@ public class LoginClaibration {
         DropdownHelper.selectFromDropdown(testContainer, "Bill To Contact", "customLookUP-");
         DropdownHelper.selectFromDropdown(testContainer, "Ship To Contact", "customLookUP-");
 
-        scrollTo(0, 600);
+        scrollTo(0, 700);
         WebElement serviceBundleInput = findElement(By.xpath(XPathHelper.SERVICE_BUNDLE_BUTTON));
         clickElement(serviceBundleInput);
         
@@ -149,9 +149,22 @@ public class LoginClaibration {
  		{
  			System.out.println("User is on home page with an work order");
  		}
+// 		JavascriptExecutor js = (JavascriptExecutor) testContainer.driver;
+// 		js.executeScript("location.reload(true);");  // true = force reload from server
+
  		Thread.sleep(60);
-    	WebElement workOrderServices = findElement(By.xpath(XPathHelper.WORK_ORDER_SERVICES));
-    	workOrderServices.click();
+ 		
+ 		//Refresh the current screen
+ 		WebElement actionButton = findElement(By.xpath("//span[contains(text(),'Actions for')]"));
+ 		actionButton.click();  // Click the element
+
+ 		// Press Enter after clicking
+ 		actionButton.sendKeys(Keys.ENTER);
+ 		
+ 		WebDriverWait wait = new WebDriverWait(testContainer.driver, Duration.ofSeconds(20));
+ 		WebElement workOrderServices = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(XPathHelper.WORK_ORDER_SERVICES)));
+ 		workOrderServices.click();
+
     	List<String> requiredList = new ArrayList<>();
         List<WebElement> requiredWorkOrderList = findElements(By.xpath("//section[@aria-expanded='true']//section[@aria-expanded='true']//table//tr//th[@data-label='Work Order Service Name']"));
         
